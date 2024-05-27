@@ -1,101 +1,25 @@
 ###############################################################################
-#                         ICyTE-LPI-Deep Toobox                               #
+#                        ICyTE - LPI - AI Toolbox                             #
 # module name:                                                                #
-#     LPI_deep_NetVisualization                                               #
+#     net_visualization                                                       #
 #                                                                             #
 # module description:                                                         #
-#     This module contains all the required function for net visualizations.  #
+#     This module contains functions for net visualizations.                  #
 #                                                                             #
 # authors of the toolbox:                                                     #
 #     Agustín Amalfitano                                                      #
-#     Diego Comas				                       						  #
-#     Franco Ercoli				                       						  #
-#     Juan Iturriaga    		                       						  #
+#     Diego Comas	                			                       	      #
+#     Juan Iturriaga    		                                   		      #
 #                                                                             #  
 # colaborators:                                                               #
-#     Luciana Simón Gonzalez                        						  #
-#     Virginia Ballarin			                       						  #
-#     Gustavo Meschino			                       						  #
+#     Luciana Simón Gonzalez                                			      #
+#     Gustavo Meschino			                                   		      #
+#     Virginia Ballarin			                                		      #
+#     Franco Ercoli				                                       	      #
 #                                                                             #
-# versions:                                                                   #
-#     module: 1.0 - 2023-04-30                                                #
-#     toolbox 1.0 - 2023-XX-XX                                                #
-#                                                                             #
-# *LPI-ICyTE-CONICET-UMDP                                                     #
+# *LPI-ICyTE-CONICET-UNMDP                                                    #
 #                                                                             #
 ###############################################################################
-
-# ******************************************************************************
-# ------------------------------LIST OF VERSIONS--------------------------------
-# Version |   Date   |         Authors      | Description
-# -------- ---------- ---------------------- -----------------------------------
-#
-#    1.0   04/30/2023  Diego Comas            First version.
-#                      Agustín Amalfitano 
-#                      Franco Ercoli
-#
-# ******************************************************************************
-
-# ------------------------------LIST OF FUNCTIONS-------------------------------
-# Functions              |   Date    |    Authors          |   Description
-# ------------------------------------------------------------------------------
-#
-# normalize_fmaps         04/21/2023   Agustín Amalfitano / This function 
-#                                       Diego Comas         normalize a feature 
-#                                                           maps with values in 
-#                                                           [0, 255].
-#
-# save_fmaps_as_png       04/21/2023   Agustín Amalfitano / This function saves 
-#                                       Diego Comas         single images for 
-#                                                           all the feature
-#                                                           maps.
-#
-# save_fmaps_as_mosaics   04/21/2023   Agustín Amalfitano / This function saves 
-#                                       Diego Comas         a feature map as a 
-#                                                           mosaic.
-#
-# info_dic                04/21/2023   Agustín Amalfitano / This function 
-#                                       Diego Comas         saves an info.mat 
-#                                                           file inside of each 
-#                                                           image folder.
-#
-# layers_dic              04/21/2023   Agustín Amalfitano / This function 
-#                                       Diego Comas         saves a feature map 
-#                                                           as MATLAB files.
-#
-# gradient_ascent_step    04/21/2023   Agustín Amalfitano / This function 
-#                                       Diego Comas         compute gradient 
-#                                                           ascent.
-#
-# initialize_image        04/21/2023   Agustín Amalfitano / This function 
-#                                       Diego Comas         initialize an IMAGE 
-#                                                           with random values 
-#                                                           from a uniform 
-#                                                           distribution in 
-#                                                           [0, 1].
-#
-# maximize_filter         04/21/2023   Agustín Amalfitano / This function obtain 
-#                                       Diego Comas         the image that 
-#                                                           maximizes an specific 
-#                                                           filter in a Neural 
-#                                                           model using 
-#                                                           gradient 
-#                                                           maximization.
-#
-# deprocess_image         04/21/2023   Agustín Amalfitano / This function 
-#                                       Diego Comas         convert the resulting 
-#                                                           input image of 
-#                                                           "gradient_ascent_step" 
-#                                                           back to a displayable 
-#                                                           form.
-#
-# save_mosaic             04/21/2023   Agustín Amalfitano /
-#                                       Diego Comas
-#
-# layer_i_analysis        04/21/2023   Agustín Amalfitano /
-#                                       Diego Comas
-#
-# ------------------------------------------------------------------------------
 
 # --------------------------IMPORTS---------------------------------------------
 import tensorflow as tf
@@ -103,7 +27,7 @@ import tensorflow as tf
 # ------------------------------------------------------------------------------
 def normalize_fmaps(fmap):
     """
-     This function normalize a feature maps with values in [0, 255].
+     This function normalizes a feature map with values in [0, 255].
 
     --Inputs:
        
@@ -120,6 +44,9 @@ def normalize_fmaps(fmap):
                        feature maps.
 
     """
+
+    # Author: Agustín Amalfitano 
+    # Revised by: Diego Comas  
 
     # Libraries
     import math
@@ -162,9 +89,12 @@ def save_fmaps_as_png(feature_maps, ixs, image_name, result_path):
 
     """
 
+    # Author: Agustín Amalfitano 
+    # Revised by: Diego Comas  
+
     # Libraries
     import cv2
-    from LPI_deep_Files import create_folder
+    from files import create_folder
 
     # Loop through the feature maps and display them (normalized):
     for fmap, block_number in zip(feature_maps, ixs):
@@ -210,6 +140,9 @@ def save_fmaps_as_mosaicos(feature_maps, ixs, image_name, result_path):
 
     """
 
+    # Author: Agustín Amalfitano 
+    # Revised by: Diego Comas  
+
     # Libraries
     from matplotlib import pyplot
 
@@ -242,7 +175,7 @@ def save_fmaps_as_mosaicos(feature_maps, ixs, image_name, result_path):
 # ------------------------------------------------------------------------------
 def info_dic(result_path, image_name, dic):
     """
-     This function saves an info.mat file inside of each image folder
+     This function saves an info.mat file inside of each image folder.
 
     --Inputs:
        
@@ -258,6 +191,9 @@ def info_dic(result_path, image_name, dic):
         None
 
     """
+
+    # Author: Agustín Amalfitano 
+    # Revised by: Diego Comas  
 
     # Libraries
     from scipy.io import savemat
@@ -292,6 +228,9 @@ def layers_dic(feature_maps, dic, result_path, image_name):
                                   unit16.
 
     """
+
+    # Author: Agustín Amalfitano 
+    # Revised by: Diego Comas  
 
     # Libraries
     from scipy.io import savemat
@@ -335,8 +274,8 @@ def layers_dic(feature_maps, dic, result_path, image_name):
 @tf.function
 def gradient_ascent_step(img, filter_index, learning_rate, feature_extractor):
     """
-    This function compute gradient ascent. It simply computes the gradients 
-    of the loss above with regard to the input image, and update the update 
+    This function computes gradient ascent. It simply computes the gradients 
+    of the loss above with regard to the input image, and updates the update 
     image so as to move it towards a state that will activate the target 
     filter more strongly.
 
@@ -363,8 +302,11 @@ def gradient_ascent_step(img, filter_index, learning_rate, feature_extractor):
 
     """
 
+    # Author: Agustín Amalfitano 
+    # Revised by: Diego Comas  
+
     # Libraries:
-    from LPI_deep_Networks import compute_loss
+    from deep_nets import compute_loss
 
     # Compute loss:
     with tf.GradientTape() as tape:
@@ -399,6 +341,9 @@ def initialize_image(img_width, img_height):
 
     """
 
+    # Author: Agustín Amalfitano 
+    # Revised by: Diego Comas  
+
     # Initializing with values in [0, 1]:
     img = tf.random.uniform((1, img_width, img_height, 3))
     
@@ -411,7 +356,7 @@ def initialize_image(img_width, img_height):
 # ------------------------------------------------------------------------------
 def maximize_filter(filter_index, feature_extractor, iterations=30, learning_rate=10):
     """
-    This function obtain the image that maximizes an specific filter in a Neural 
+    This function obtains the image that maximizes a specific filter in a Neural 
     model using gradient maximization.
 
     --Inputs:
@@ -441,6 +386,9 @@ def maximize_filter(filter_index, feature_extractor, iterations=30, learning_rat
 
     """
 
+    # Author: Agustín Amalfitano 
+    # Revised by: Diego Comas  
+
     # Libraries:
     import numpy as np
 
@@ -464,7 +412,7 @@ def maximize_filter(filter_index, feature_extractor, iterations=30, learning_rat
 # ------------------------------------------------------------------------------
 def deprocess_image(img):
     """
-     This function convert the resulting input image of "gradient_ascent_step" 
+     This function converts the resulting input image of "gradient_ascent_step" 
      back to a displayable form, by normalizing it, center-cropping it, 
      and restricting it to the [0, 255] range.
 
@@ -481,6 +429,9 @@ def deprocess_image(img):
             https://keras.io/examples/vision/visualizing_what_convnets_learn/.
 
     """
+
+    # Author: Agustín Amalfitano 
+    # Revised by: Diego Comas  
     
     # Libraries:
     import numpy as np
@@ -502,114 +453,181 @@ def deprocess_image(img):
     return img_converted
 
 # ------------------------------------------------------------------------------
-def save_mosaic(rows, n_columns, filters_layer_i, filter_index,
-                caja_roja, fmap_i_im_j, image_names,
-                ix=1, save_outputs=False, mosaic_index=-1):
+def feature_visualization_layer(model, id_layer, list_outputs, experiment_name, result_folder):
+    """
+     This function performs feature-visualization on a specific filter. The 
+     results are saved accordingly.
+
+    --Inputs:
+
+        model = A Neural Network OBJECT generated using Keras. It should be 
+                formatting for accepting RGB input images. If the original 
+                model does not accept them, you can solve it using the 
+                "rgb_to_gray" and the "reshape_input_model" functions. 
+       
+        id_layer = A LIST with the number of layer to "visualize". If it is 
+                   "-1", then the classification layer will be analyzed.
+
+        list_outputs =  A LIST containing the names of the filters to 
+                        analyze. Please note that if the classification layer 
+                        is being analyzed the this list should contain the 
+                        names of the classes.
+
+        experiment_name = A STRING with the name of the experiment for identification.
+
+        result_folder = A STRING with the path for saving results.
+
+    --Outputs:
+
+        None.
+
+    *It is based on the toolbox "xplique":
+            https://github.com/deel-ai/xplique.
 
     """
-   
-        TO BE REVISED!!!!
-    """
+    
+    # Author: Diego Comas
+    # Revised by: -  
     
     # Libraries:
-    from matplotlib import pyplot, patches
-    import traceback
+    import matplotlib.pyplot as plt
+    from xplique.features_visualizations import Objective, maco
+    from xplique.plots.image import plot_maco
 
+    # Creating a list for iterating between "id_outputs" and "list_outputs":
+    classes = [(id_output, list_outputs[id_output]) for id_output in range(len(list_outputs))]
 
-    output_ij = fmap_i_im_j[0, :, :, filter_index]
-    # ixim es el indice que arma la image_name, empieza siempre desde 1
-    ixim = 1
-    for _ in range(rows):
-        first = True
-        try:
-            for _ in range(n_columns):
-                if (ix <= filters_layer_i):
-                    # save if filter separately
+    # Iterating between outputs
+    for output_id, output_name in classes:
+        # Create the objective, "id_layer" is the  layer to observe and the "output_id" are the ids of the filters!
+        obj_logits = Objective.neuron(model, id_layer, output_id)
+        print(obj_logits)
+        print(output_name)
+        img, alpha = maco(obj_logits, nb_steps=128, values_range = (-1, 1))
+        plot_maco(img, alpha)
+        plt.title(output_name)
 
-                    # specify subplot and turn of axis
-                    ax = pyplot.subplot(rows + 1, n_columns, ixim)
-                    ax.set_xticks([])
-                    ax.set_yticks([])
-
-                    if ixim <= n_columns:
-                        ax.set_title(str(ix - 1),fontsize='small')
-
-                    # eje y con label rotado -45 y color a eleccion
-                    if first:
-                        pyplot.ylabel(str(ix - 1),rotation=-45, fontsize='small', color="black")
-
-                    if ix == filter_index + 1:   
-
-                        # remarcar la image_name con un rectangulo
-                        ##################################
-                        autoAxis = ax.axis()
-                        rec = patches.Rectangle((autoAxis[0]+caja_roja,autoAxis[2]-1),(autoAxis[1]-autoAxis[0])-caja_roja,(autoAxis[3]-autoAxis[2])+caja_roja, color="red", fill=False,lw=3)
-                        rec = ax.add_patch(rec)
-                        rec.set_clip_on(False)
-                        ##################################
-
-
-                    # plot filter channel in grayscale cmap="gray", "jet" a color
-
-                    if (ixim - 1) % 2 == 0:
-                        pyplot.imshow(fmap_i_im_j[0, :, :, ix-1], cmap='gray')
-                    else:
-                        pyplot.imshow(fmap_i_im_j[0, :, :, ix-1], cmap='gray')
-                ix += 1
-                ixim += 1
-                if first:
-                    first = False
-        except:
-            traceback.print_exc()
-            print("no se condice la cantidad de image_namees analizadas con el n de filtros")
-            continue
-            # show the figure
-    # pyplot.tight_layout()
-    pyplot.subplots_adjust(wspace=.1, hspace=0.1)
-    # pyplot.show()
-    if mosaic_index >= 0:
-        mosaic_name_i = image_names + "mosaic_" + str(filter_index) + "_" + str(mosaic_index) + ".png"
-    else:
-        print(mosaic_index)
-        mosaic_name_i = image_names + "mosaic_" + str(filter_index) + ".png"
-        
-    output_name_i = image_names + "output" + str(filter_index) + ".png"
-    
-    pyplot.savefig(mosaic_name_i, dpi=1000)
-    pyplot.close()
-    #########################
-
-
-    if save_outputs:
-        # solucion
-        #https://stackoverflow.com/questions/2659312/how-do-i-convert-a-numpy-array-to-and-display-an-image
-        pyplot.imshow(output_ij, interpolation='nearest')
-        #pyplot.gray()  # escala de grises
-        pyplot.savefig(output_name_i, dpi=1000)
-        pyplot.close()
-
-    # Returning outputs:
-    return()
+        # Saving the results:
+        file_name = experiment_name + '_' + output_name + '.png'
+        plt.savefig(result_folder + file_name)
+        plt.show()
 
 # ------------------------------------------------------------------------------
-def layer_i_analysis(layer_name, result_folder, model):
+def grad_cam_explainer(model, list_methods, list_images, img_paths, labels_in_model, img_size, experiment_name, result_folder):
+    """
+     This function performs grad-cam based explainers from a model and a 
+     set of images.
+
+    --Inputs:
+
+        model = A Neural Network OBJECT generated using Keras. It should be 
+                formatting for accepting RGB input images. If the original 
+                model does not accept them, you can solve it using the 
+                "rgb_to_gray" and the "reshape_input_model" functions. 
+       
+        list_methods = A LIST with the names (STRING) of the explainers to 
+                       be used. The explainer are implemented:
+                       "GradCAM", "GradCAMPP", "Saliency", "DeconvNet", 
+                       "GradientInput", "GuidedBackprop".
+
+        list_images =  A LIST containing the names of the images relative 
+                       to "img_paths".
+
+        img_paths = A STRING with the base folder for reading the images 
+                    in "list_images".
+
+        labels_in_model = A LIST with the names of the labels identified 
+                          in the model.
+
+        img_size = A LIST with the size proper for the input to the model.
+
+        experiment_name = A STRING with the name of the experiment for identification.
+
+        result_folder = A STRING with the path for saving results.
+
+    --Outputs:
+
+        None.
+
+    *It is based on the toolbox "xplique": 
+            https://github.com/deel-ai/xplique.
 
     """
-   
-        TO BE REVISED!!!!
-    """
-
+    
+    # Author: Diego Comas
+    # Revised by: -  
+    
     # Libraries:
-    from LPI_deep_Files import create_folder
+    from xplique.attributions import GradCAM, GradCAMPP, Saliency, DeconvNet, GradientInput, GuidedBackprop
+    from xplique.plots import plot_attributions
+    import numpy as np
+    import matplotlib.pyplot as plt
 
-    # create subfolder i
-    layer_subfolder_i = result_folder + layer_name
-    create_folder(layer_subfolder_i)
+    # Defining arbitrary parameters (common for all methods):
+    parameters_1 = {
+        "model": model,
+        "output_layer": -1,
+        "batch_size": 16,
+        "conv_layer": None,
+    }
 
-    image_names = layer_subfolder_i + "/" + model + "-filters-" + layer_name + "_"
-    print(image_names)
+    parameters_2 = {
+        "model": model,
+        "output_layer": None,
+        "batch_size": 16,
+    }
 
-    # Returning outputs:
-    return()
+    # Defining explainers according to list_methods":
+    explainers = {}
+    for method in list_methods:
+        if method == "GradCAM":
+            explainers["GradCAM"] = GradCAM(**parameters_1)
+        elif method == "GradCAMPP":
+            explainers["GradCAMPP"] = GradCAMPP(**parameters_1)
+        elif method == "Saliency":
+            explainers["Saliency"] = Saliency(**parameters_2)
+        elif method == "DeconvNet":
+            explainers["DeconvNet"] = DeconvNet(**parameters_2)
+        elif method == "GradientInput":
+            explainers["GradientInput"] = GradientInput(**parameters_2)
+        elif method == "GuidedBackprop":
+            explainers["GuidedBackprop"] = GuidedBackprop(**parameters_2)
+
+    # Iteraring on "list_images" for genetaring the GRAD CAM MAPS:
+    for id_image in range(len(list_images)):
+        # Obtaining names and labels for the images:
+        image_full_name = img_paths + list_images[id_image]
+        image_short_name = list_images[id_image]
+        
+        # Preparing the image for the model:
+        image_array = np.expand_dims(tf.keras.preprocessing.image.load_img(image_full_name, target_size=(img_size[0],img_size[1],img_size[2])), 0)
+        image_array = np.array(image_array, dtype=np.float32) / 255.0
+
+        # Iterating on the labels in the model:
+        for label in labels_in_model:
+                # Obtaining number of labels:
+                num_labels = len(labels_in_model)
+
+                # Obtaining the output neuron for the class "label":
+                id_label = labels_in_model.index(label)
+
+                # Expanding dimensions properly:
+                y = np.expand_dims(tf.keras.utils.to_categorical(id_label, num_labels), 0)
+
+                # iterate on all methods
+                for method_name, explainer in explainers.items():
+                    # compute explanation by calling the explainer
+                    explanation = explainer.explain(image_array, y)
+
+                    # visualize explanation with plot_explanation() function
+                    plot_attributions(explanation, image_array, img_size=5, cmap='cividis', cols=1, alpha=0.6)
+
+                    # Defining the figure name:
+                    figure_file_name = experiment_name + '_' + method_name + '_' + image_short_name + '_' + label + '.png'
+                    
+                    # Saving: 
+                    plt.savefig(result_folder + figure_file_name)
+                    print(figure_file_name)
+                    plt.close()
 
 # ------------------------------------------------------------------------------

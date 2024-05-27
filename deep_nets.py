@@ -1,101 +1,26 @@
 ###############################################################################
-#                         ICyTE-LPI-Deep Toobox                               #
+#                        ICyTE - LPI - AI Toolbox                             #
 # module name:                                                                #
-#     LPI_deep_Networks                                                       #
+#     deep_nets                                                               #
 #                                                                             #
 # module description:                                                         #
-#     This module contains all the required functions for create, freezing,   #
-#     training and validation of Neural Networks.                             #
+#     This module contains functions for creating, freezing, training, and    #
+#     validation of Deep Neural Networks.                                     #
 #                                                                             #
 # authors of the toolbox:                                                     #
 #     Agustín Amalfitano                                                      #
-#     Diego Comas				                       						  #
-#     Franco Ercoli				                       						  #
-#     Juan Iturriaga    		                       						  #
+#     Diego Comas	                			                       	      #
+#     Juan Iturriaga    		                                   		      #
 #                                                                             #  
 # colaborators:                                                               #
-#     Luciana Simón Gonzalez                        						  #
-#     Virginia Ballarin			                       						  #
-#     Gustavo Meschino			                       						  #
+#     Luciana Simón Gonzalez                                			      #
+#     Gustavo Meschino			                                   		      #
+#     Virginia Ballarin			                                		      #
+#     Franco Ercoli				                                       	      #
 #                                                                             #
-# versions:                                                                   #
-#     module: 1.0 - 2023-05-10                                                #
-#     toolbox 1.0 - 2023-XX-XX                                                #
-#                                                                             #
-# *LPI-ICyTE-CONICET-UMDP                                                     #
+# *LPI-ICyTE-CONICET-UNMDP                                                    #
 #                                                                             #
 ###############################################################################
-
-# ******************************************************************************
-# ------------------------------LIST OF VERSIONS--------------------------------
-# Version |   Date   |         Authors      | Description
-# -------- ---------- ---------------------- -----------------------------------
-#
-#    1.0   05/10/2023  Diego Comas            First version.
-#                      Agustín Amalfitano 
-#                      Franco Ercoli
-#
-# ******************************************************************************
-
-# ------------------------------LIST OF FUNCTIONS-------------------------------
-# Functions              |   Date    |    Authors          |   Description
-# ------------------------------------------------------------------------------
-# create_cnn              05/14/2023   Diego Comas /         This function
-#                                       Agustín Amalfitano   generates a CNN 
-#                                                            using Keras.   
-#
-# train_net               05/14/2023   Diego Comas /         This function train 
-#                                       Agustín Amalfitano   a Neural Network 
-#                                                            using the method 
-#                                                            FIT de Keras.
-#
-# eval_net                05/14/2023   Diego Comas /        This function evaluates
-#                                       Agustín Amalfitano  evaluates a neural 
-#                                                           network against
-#                                                           the test set and 
-#                                                           returns the
-#                                                           validation measures.
-#
-# create_early_stopping   05/14/2023   Diego Comas /        This function 
-#                                       Agustín Amalfitano  generates a specific
-#                                                           EarlyStopping function.
-#
-# get_conv_indexs         05/14/2023   Diego Comas /        This function goes
-#                                       Agustín Amalfitano  through the layers 
-#                                                           and save the index of 
-#                                                           the last conv layer
-#                                                           of each block.
-#
-# compute_loss            05/14/2023   Diego Comas /        This function compute 
-#                                       Agustín Amalfitano  the "loss" as the mean 
-#                                                           of the activation of a 
-#                                                           specific filter in our 
-#                                                           target layer.
-#
-# load_saved_model        05/14/2023   Diego Comas /        This function load a 
-#                                       Agustín Amalfitano  Neural Network from 
-#                                                           a H5 file.
-#
-# evaluate_image          05/14/2023   Diego Comas /        This function 
-#                                       Agustín Amalfitano  evaluated a Neural 
-#                                                           Network for a specific 
-#                                                           image.
-#
-# set_net_outputs         05/14/2023   Diego Comas          This function set 
-#                                                           specific indexes to as 
-#                                                           outputs.
-#
-# implementing_hold_out   05/09/2023   Diego Comas          This function implements 
-#                                                           hold-out on a CNN 
-#                                                           defined by means 
-#                                                           "dict_params".
-#
-# evaluate_clas_models    05/09/2023   Diego Comas          This function implements 
-#                                                           the evaluation of 
-#                                                           classification models 
-#                                                           from a DATAFRAME.
-#
-# ------------------------------------------------------------------------------
 
 # --------------------------IMPORTS---------------------------------------------
 import os
@@ -136,6 +61,9 @@ def create_cnn(model_name, number_classes, classifier_scheme=1):
         transfer_flag = A BOOLEAN indicating if the CNN is for transfer-learning.
 
     """
+
+    # Author: Diego Comas 
+    # Revised by: -
 
     # Libraries:
     from keras import layers
@@ -427,7 +355,7 @@ def train_net(net, epochs, TRAIN_iterator, VALIDATION_iterator,
                  metric='categorical_accuracy', flag_info=True, stopping=[],
                  id_finetuning=-1, result_name=[], flag_save_net=False):
     """
-     This function train a Neural Network using the method fit de Keras.
+     This function trains a Neural Network using the method fit de Keras.
 
     --Inputs:
 
@@ -481,10 +409,13 @@ def train_net(net, epochs, TRAIN_iterator, VALIDATION_iterator,
 
     """
 
+    # Author: Diego Comas 
+    # Revised by: -
+
     # Libraries:
     from keras import optimizers
     import pandas as pd
-    from LPI_deep_Graphs import show_history
+    from graphs import show_history
 
     # --Training:
 
@@ -602,6 +533,9 @@ def eval_net(net, TEST_iterator, additional_measures, test_batch, negative_case_
                          measures considering the order indicated.
 
     """
+
+    # Author: Diego Comas 
+    # Revised by: -
 
     # Libraries:
     import numpy as np
@@ -730,6 +664,9 @@ def create_early_stopping(early_stopping_type):
 
     """
 
+    # Author: Diego Comas 
+    # Revised by: -
+
     # Libraries:
     from keras.callbacks import EarlyStopping
 
@@ -768,9 +705,9 @@ def create_early_stopping(early_stopping_type):
     return stopping, flag_stopping
 
 # ------------------------------------------------------------------------------
-def get_conv_indexs(model):
+def get_conv_indexes(model):
     """
-     This function goes through the layers and save the index of the last 
+     This function goes through the layers and saves the index of the last 
      conv layer of each block.
 
     --Inputs:
@@ -785,6 +722,9 @@ def get_conv_indexs(model):
                             in "model".
 
     """
+
+    # Author: Agustín Amalfitano 
+    # Revised by: Diego Comas  
 
     # Libraries:
     import sys
@@ -815,7 +755,7 @@ def get_conv_indexs(model):
 # ------------------------------------------------------------------------------
 def compute_loss(input_image, filter_index, feature_extractor):
     """
-     This function compute the "loss" as the mean of the activation of a 
+     This function computes the "loss" as the mean of the activation of a 
      specific filter in our target layer. To avoid border effects, 
      we exclude border pixels.
 
@@ -839,6 +779,9 @@ def compute_loss(input_image, filter_index, feature_extractor):
             https://keras.io/examples/vision/visualizing_what_convnets_learn/.
 
     """
+
+    # Author: Agustín Amalfitano 
+    # Revised by: Diego Comas  
     
     # Libraries:
     import tensorflow as tf
@@ -872,10 +815,12 @@ def load_saved_model(model_name):
                      loading.
 
     """
+    
+    # Author: Diego Comas 
+    # Revised by: - 
 
     # Libraries:
     from keras.models import load_model
-    from keras.models import Model
     
     # Reading the file:
     try:
@@ -891,7 +836,7 @@ def load_saved_model(model_name):
 # ------------------------------------------------------------------------------
 def evaluate_image(image_name, model):
     """
-     This function evaluated a Neural Network for a specific image.
+     This function evaluates a Neural Network for a specific image.
 
     --Inputs:
        
@@ -907,6 +852,9 @@ def evaluate_image(image_name, model):
         label_assigned = The label assigned to the image during the evaluation.
 
     """
+
+    # Author: Agustín Amalfitano 
+    # Revised by: Diego Comas  
  
     # Libraries
     from keras.preprocessing.image import load_img, img_to_array
@@ -946,7 +894,7 @@ def evaluate_image(image_name, model):
 # ------------------------------------------------------------------------------
 def set_net_outputs(model, ixs):
     """
-    This function set specific indexes to as outputs.
+    This function sets specific indexes to as outputs.
 
     --Inputs:
        
@@ -960,6 +908,9 @@ def set_net_outputs(model, ixs):
                         outputs.
 
     """
+
+    # Author: Agustín Amalfitano 
+    # Revised by: Diego Comas  
 
     # Libraries:
     from keras.models import Model
@@ -1073,15 +1024,18 @@ def implementing_hold_out(data, labels, id_files, id_labels, dict_params, image_
         matrix_measures = A NUMPY ARRAY with the resulting measures for the implementation.
 
     """
+
+    # Author: Diego Comas 
+    # Revised by: - 
     
     # Libraries:
     import pandas as pd
     import numpy as np
     from datetime import datetime
-    from LPI_deep_Dataframes import sampling_df, balance_df, hold_out_df, create_iter_df
-    from LPI_deep_Settings import toolbox_version
-    from LPI_deep_Texts import list_into_str, save_list_to_text
-    from LPI_deep_Files import create_folder
+    from dataframes import sampling_df, balance_df, hold_out_df, create_iter_df
+    from settings import toolbox_version
+    from texts import list_into_str, save_list_to_text
+    from files import create_folder
 
     # Define list of measures:
     number_of_measures = len(additional_measures)+2
@@ -1283,7 +1237,7 @@ def implementing_hold_out(data, labels, id_files, id_labels, dict_params, image_
     return time_counters, matrix_measures
 
 # ------------------------------------------------------------------------------
-def evaluate_clas_models(data_df, dic_par, labels, id_files, id_labels, image_folder, result_folder):
+def evaluate_class_models(data_df, dic_par, labels, id_files, id_labels, image_folder, result_folder):
     """
      This function implements the evaluation of classification models from a DATAFRAME.
 
@@ -1379,12 +1333,12 @@ def evaluate_clas_models(data_df, dic_par, labels, id_files, id_labels, image_fo
                           for the implementation. Each elements corresponds to a model.
 
     """
+    # Author: Diego Comas 
+    # Revised by: - 
 
     # Libraries:
-    import numpy as np
-    import pandas as pd
     from datetime import date
-    from LPI_deep_Files import create_folder
+    from files import create_folder
 
     # Detect number of classes:
     number_classes = len(labels)
@@ -1452,5 +1406,74 @@ def evaluate_clas_models(data_df, dic_par, labels, id_files, id_labels, image_fo
 
     # Returning outputs:
     return time_counters_total, matrix_measures_total
+
+# ------------------------------------------------------------------------------
+def reshape_input_model(base_model, new_shape, flag_print):
+    """
+    This function allows to change the input shape of a model.
+
+    --Inputs:
+       
+        base_model = A Neural Network OBJECT generated using Keras.
+
+        new_shape = A LIST with the 3 numbers of the new shape 
+                    [number_rows, number_columns, number_chanels].
+
+    --Outputs:
+
+        new_model = The Neural Network OBJECT with the changes in the 
+                    input shape.
+
+    """
+
+    # Author: Diego Comas 
+    # Revised by: -
+
+    # Libraries:
+    from keras.models import Model
+    
+    # I obtain the strcuture of the model:
+    model_config = base_model.get_config()
+
+    # Changing the input shape accordintly:
+    model_config['layers'][0]['config']['batch_input_shape'] = (None, new_shape[0], new_shape[1], new_shape[2])
+
+    # Cheating the new model with all the of the previous:
+    new_model = Model.from_config(model_config)
+    
+    # Checking if new shape should be show
+    if flag_print:
+        new_model.summary()
+
+    # Returning outputs:
+    return new_model
+
+# ------------------------------------------------------------------------------
+def rgb_to_gray(inputs):
+    """
+    This function create a layer for converting RGB to GRAYSCALE using 
+    [0.333, 0.333, 0.333] as weights.
+
+    --Inputs:
+       
+        inputs = The inputs to the layer.
+
+    --Outputs:
+
+        gray_output = The output of the conversion layer.
+
+    """
+
+    # Author: Diego Comas 
+    # Revised by: -
+
+    # Libraries:
+    import tensorflow as tf
+
+    # Obtaing the output: 
+    gray_output = tf.reduce_sum(inputs * tf.constant([0.333, 0.333, 0.333], shape=(1, 1, 1, 3)), axis=-1, keepdims=True)
+
+    # It is implemented the typical conversion from RGB to GRAY SCALE using [0.333, 0.333, 0.333] as weights. 
+    return gray_output
 
 # ------------------------------------------------------------------------------

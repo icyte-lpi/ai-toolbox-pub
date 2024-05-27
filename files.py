@@ -1,81 +1,26 @@
 ###############################################################################
-#                         ICyTE-LPI-Deep Toobox                               #
+#                        ICyTE - LPI - AI Toolbox                             #
 # module name:                                                                #
-#     LPI_deep_Files                                                          #
+#     files                                                                   #
 #                                                                             #
 # module description:                                                         #
-#     This module contains all the functions developed for managing files and #
+#     This module contains functions developed for managing files and         #
 #     folders.                                                                #
 #                                                                             #
 # authors of the toolbox:                                                     #
 #     Agustín Amalfitano                                                      #
-#     Diego Comas				                       						  #
-#     Franco Ercoli				                       						  #
-#     Juan Iturriaga    		                       						  #
+#     Diego Comas	                			                       	      #
+#     Juan Iturriaga    		                                   		      #
 #                                                                             #  
 # colaborators:                                                               #
-#     Luciana Simón Gonzalez                        						  #
-#     Virginia Ballarin			                       						  #
-#     Gustavo Meschino			                       						  #
+#     Luciana Simón Gonzalez                                			      #
+#     Gustavo Meschino			                                   		      #
+#     Virginia Ballarin			                                		      #
+#     Franco Ercoli				                                       	      #
 #                                                                             #
-# versions:                                                                   #
-#     module: 1.0 - 2023-05-10                                                #
-#     toolbox 1.0 - 2023-XX-XX                                                #
-#                                                                             #
-# *LPI-ICyTE-CONICET-UMDP                                                     #
+# *LPI-ICyTE-CONICET-UNMDP                                                    #
 #                                                                             #
 ###############################################################################
-
-# ******************************************************************************
-# ------------------------------LIST OF VERSIONS--------------------------------
-# Version |   Date   |         Authors      | Description
-# -------- ---------- ---------------------- -----------------------------------
-#
-#    1.0   05/10/2023  Diego Comas            First version.
-#                      Agustín Amalfitano 
-#                      Franco Ercoli
-#
-# ******************************************************************************
-
-# ------------------------------LIST OF FUNCTIONS-------------------------------
-# Functions              |   Date    |    Authors          |   Description
-# ------------------------------------------------------------------------------
-#
-# dict_conversion          04/25/2023  Diego Comas /         This function 
-#                                                            performs conversion 
-#                                                            of format in 
-#                                                            specified keys of a 
-#                                                            DICTIONARY.
-#
-# read_params_file         04/25/2023   Diego Comas /        This function read 
-#                                        Agustín Amalfitano  a TXT file containing 
-#                                                            parameters and return 
-#                                                            a DICTIONARY of 
-#                                                            parameters.
-#
-# file_to_list             04/21/2023   Diego Comas /        Read a file and 
-#                                       Agustín Amalfitano   return a list.
-#
-# input_files              05/10/2023   Agustín Amalfitano   This function 
-#                                                            return a list of 
-#                                                            files with 
-#                                                            particular 
-#                                                            conditions.
-#
-# check_key                04/21/2023   Agustín Amalfitano   This check if a KEY   
-#                                                            is defined in a
-#                                                            DICTIONARY.
-#
-# images_paths_and_names   04/21/2023   Diego Comas /        This function return 
-#                                       Agustín Amalfitano   the full path of all 
-#                                                            the files in 
-#                                                            "full_path" and 
-#                                                            their names.
-#
-# create_folder            04/25/2023   Diego Comas /        This function 
-#                                       Agustín Amalfitano   create a folder.
-#
-# ------------------------------------------------------------------------------
 
 # --------------------------IMPORTS---------------------------------------------
 # Reserved.
@@ -106,6 +51,9 @@ def dict_conversion(dict, conversion):
         dict = The DICTIONARY with converted keys.
 
     """
+
+    # Author: Diego Comas 
+    # Revised by: -
 
     # Check for conversion of parameters values:
     if conversion:
@@ -156,6 +104,9 @@ def read_params_file(file_name, separator, conversion = {}):
         
     """
     
+    # Author: Agustín Amalfitano 
+    # Revised by: Diego Comas  
+
     # Reading the file and returning a dictionary:
     dic_Parameters = {}
     with open(file_name, "r") as f:
@@ -178,7 +129,7 @@ def read_params_file(file_name, separator, conversion = {}):
 # ------------------------------------------------------------------------------
 def file_to_list(filename):
     """
-     This function read a TXT file a return the content in a LIST (an element 
+     This function reads a TXT file a returns the content in a LIST (an element 
      per line).
 
     --Inputs:
@@ -191,6 +142,9 @@ def file_to_list(filename):
         
     """
     
+    # Author: Agustín Amalfitano 
+    # Revised by: Diego Comas  
+
     # Open file and pass each line to a element in a LIST:
     with open(filename, "r") as f:
         aux = f.readlines()
@@ -202,7 +156,7 @@ def file_to_list(filename):
 # ------------------------------------------------------------------------------
 def input_files(inputfile):
     """
-    This function return a list of files with particular conditions.
+    This function returns a list of files with particular conditions.
 
     --Inputs:
     
@@ -216,6 +170,9 @@ def input_files(inputfile):
                         condition.
         
     """
+
+    # Author: Diego Comas 
+    # Revised by: -
     
     # Libraries:
     import glob
@@ -237,7 +194,7 @@ def input_files(inputfile):
 # -----------------------------------------------------------------------------
 def check_key(dic, key):
     """
-     This check if a KEY is defined in a DICTIONARY. It is usefull for checking 
+     This check if a KEY is defined in a DICTIONARY. It is useful for checking 
      parameters read from a TXT file.
 
     --Inputs:
@@ -253,6 +210,9 @@ def check_key(dic, key):
         key_content = The value of the key in the DICTIONARY, if it exists.    
      
     """
+
+    # Author: Diego Comas 
+    # Revised by: -
 
     # Initializing outputs:
     key_content = []
@@ -270,7 +230,7 @@ def check_key(dic, key):
 # -----------------------------------------------------------------------------
 def images_paths_and_names(full_path):
     """
-     This function return the full path of all the files in "full_path" and 
+     This function returns the full path of all the files in "full_path" and 
      their names.
 
     --Inputs:
@@ -286,6 +246,9 @@ def images_paths_and_names(full_path):
                      "full_path".
         
     """
+
+    # Author: Agustín Amalfitano 
+    # Revised by: Diego Comas  
 
     # Libraries:
     import os
@@ -308,7 +271,7 @@ def images_paths_and_names(full_path):
 # -----------------------------------------------------------------------------
 def create_folder(path_create):
     """
-     This function create a folder.
+     This function creates a folder.
 
     --Inputs:
     
@@ -319,6 +282,9 @@ def create_folder(path_create):
         existing_flag = A BOOLEAN indicating if the folder already exists..
         
     """
+
+    # Author: Diego Comas 
+    # Revised by: -
 
     # Libraries:
     import os

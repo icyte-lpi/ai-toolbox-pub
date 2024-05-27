@@ -1,72 +1,25 @@
 ###############################################################################
-#                         ICyTE-LPI-Deep Toobox                               #
+#                        ICyTE - LPI - AI Toolbox                             #
 # module name:                                                                #
-#     LPI_deep_Dataframes                                                     #
+#     dataframes                                                              #
 #                                                                             #
 # module description:                                                         #
-#     This module contains all the required function for using DataFrames.    #
+#     This module contains functions for using DataFrames.                    #
 #                                                                             #
 # authors of the toolbox:                                                     #
 #     Agustín Amalfitano                                                      #
-#     Diego Comas				                       						  #
-#     Franco Ercoli				                       						  #
-#     Juan Iturriaga    		                       						  #
+#     Diego Comas	                			                       	      #
+#     Juan Iturriaga    		                                   		      #
 #                                                                             #  
 # colaborators:                                                               #
-#     Luciana Simón Gonzalez                        						  #
-#     Virginia Ballarin			                       						  #
-#     Gustavo Meschino			                       						  #
+#     Luciana Simón Gonzalez                                			      #
+#     Gustavo Meschino			                                   		      #
+#     Virginia Ballarin			                                		      #
+#     Franco Ercoli				                                       	      #
 #                                                                             #
-# versions:                                                                   #
-#     module: 1.0 - 2023-05-14                                                #
-#     toolbox 1.0 - 2023-XX-XX                                                #
-#                                                                             #
-# *LPI-ICyTE-CONICET-UMDP                                                     #
+# *LPI-ICyTE-CONICET-UNMDP                                                    #
 #                                                                             #
 ###############################################################################
-
-# ******************************************************************************
-# ------------------------------LIST OF VERSIONS--------------------------------
-# Version |   Date   |         Authors      | Description
-# -------- ---------- ---------------------- -----------------------------------
-#
-#    1.0   04/21/2023  Diego Comas            First version.
-#                      Agustín Amalfitano 
-#                      Franco Ercoli
-#
-# ******************************************************************************
-
-# ------------------------------LIST OF FUNCTIONS-------------------------------
-# Functions              |   Date    |    Authors          |   Description
-# ------------------------------------------------------------------------------
-# balance_df              04/05/2023   Diego Comas /         Particiona un DATAFRAME
-#                                       Agustín Amalfitano   en TRAIN, VALIDATION y
-#                                                            TEST
-#
-# hold_out_df             04/05/2023   Diego Comas /         Define los iteradores
-#                                       Agustín Amalfitano   de ENTRENAMIENTO,
-#                                                            VALIDACIÓN Y TEST
-#
-# filter_df               04/05/2023   Diego Comas /         Filtra un DATAFRAME
-#                                       Agustín Amalfitano
-#
-# create_iter_df          04/05/2023   Diego Comas /         Define iteradores a
-#                                       Agustín Amalfitano   partir de DataFrames
-#
-# read_csv                04/05/2023   Diego Comas /         Obtener un DATAFRAME a
-#                                       Agustín Amalfitano   partir de un CSV
-#
-# walk_into_subdirs       05/15/2023   Diego Comas /         This function walk  
-#                                       Agustín Amalfitano   thought the 
-#                                                            subdirectories looking 
-#                                                            for files to create 
-#                                                            a DATAFRAME.
-#
-# save_df                 05/15/2023   Diego Comas /         This function saves 
-#                                       Agustín Amalfitano   a PANDAS DATAFRAME 
-#                                                            in a "csv" file.
-#
-# ------------------------------------------------------------------------------
 
 # --------------------------IMPORTS---------------------------------------------
 # Reserved.
@@ -93,6 +46,9 @@ def balance_df(data_frame, mode, id_files="images", id_labels="labels"):
         data_frame_balanced = A balanced version of the input DATAFRAME.
 
     """
+
+    # Author: Diego Comas 
+    # Revised by: - 
 
     # Libraries:
     import numpy as np
@@ -151,7 +107,7 @@ def balance_df(data_frame, mode, id_files="images", id_labels="labels"):
 def hold_out_df(data_frame, proportions, result_name,
                                   id_files="images", id_labels="labels", balancing_criterium="no"):
     """
-     This function make a partition in a DATAFRAME to form TRAIN, VALIDATION 
+     This function makes a partition in a DATAFRAME to form TRAIN, VALIDATION 
      and TEST data considering HOLD-OUT.
 
     --Inputs:
@@ -183,6 +139,8 @@ def hold_out_df(data_frame, proportions, result_name,
         df_test = A DATAFRAME with the test data.
 
     """
+    # Author: Diego Comas 
+    # Revised by: - 
 
     # Libraries:
     from sklearn.model_selection import train_test_split
@@ -229,7 +187,7 @@ def hold_out_df(data_frame, proportions, result_name,
 # ------------------------------------------------------------------------------
 def findin_df(data_frame, id="labels"):
     """
-     This function find distinct values in a specific field of a DATAFRAME.
+     This function finds distinct values in a specific field of a DATAFRAME.
 
     --Inputs:
        
@@ -246,6 +204,9 @@ def findin_df(data_frame, id="labels"):
 
     """
 
+    # Author: Diego Comas 
+    # Revised by: - 
+
     # Libraries:
     import numpy as np
 
@@ -258,7 +219,7 @@ def findin_df(data_frame, id="labels"):
 # ------------------------------------------------------------------------------
 def filter_df(data_frame, id, value_id):
     """
-     This function filter a DATAFRAME.
+     This function filters a DATAFRAME.
 
     --Inputs:
        
@@ -273,6 +234,9 @@ def filter_df(data_frame, id, value_id):
         data_frame_filtered = A filtered version of the input DATAFRAME.
 
     """
+    
+    # Author: Diego Comas 
+    # Revised by: - 
 
     # Perform the filtering:
     data_frame_filtered = data_frame[data_frame[id] == value_id]
@@ -283,7 +247,7 @@ def filter_df(data_frame, id, value_id):
 # ------------------------------------------------------------------------------
 def sampling_df(data_frame, id="labels", maximum_samples=0):
     """
-     This function sampling a DATAFRAME.
+     This function samples a DATAFRAME.
 
     --Inputs:
        
@@ -299,6 +263,8 @@ def sampling_df(data_frame, id="labels", maximum_samples=0):
         data_frame_sampled = A sampled version of the input DATAFRAME.
 
     """
+    # Author: Diego Comas 
+    # Revised by: - 
 
     # Libraries:
     import numpy as np
@@ -332,7 +298,7 @@ def create_iter_df(data_frame, preproc_function, image_path, img_size, size_batc
                                    augmentation_type=0, color_mode="rgb", id_files="images",
                                    id_labels="labels", list_classes=[], shuffle_flag=False):
     """
-     This function sampling a DATAFRAME.
+     This function creates an iterator from a DATAFRAME.
 
     --Inputs:
 
@@ -369,6 +335,9 @@ def create_iter_df(data_frame, preproc_function, image_path, img_size, size_batc
         iterator = An ITERATOR OBJECT defined from the DATAFRAME.
 
     """
+
+    # Author: Diego Comas 
+    # Revised by: - 
 
     # Libraries:
     from keras.preprocessing import image
@@ -430,6 +399,9 @@ def read_csv(name_CSV, id_files, id_labels, separator=',', additional_filters=[]
         df_data = A DATAFRAME, sorted by "id_files".
 
     """
+
+    # Author: Diego Comas 
+    # Revised by: - 
     
     # Libraries:
     import pandas as pd
@@ -452,8 +424,8 @@ def read_csv(name_CSV, id_files, id_labels, separator=',', additional_filters=[]
 # ------------------------------------------------------------------------------
 def walk_into_subdirs(current_path, find_partition, find_additional_info=[]):
     """
-     This function walk thought the subdirectories looking for files to create 
-     a DATAFRAME.
+     This function walks through the subdirectories looking for files to 
+     create a DATAFRAME.
 
     --Inputs:
 
@@ -475,6 +447,10 @@ def walk_into_subdirs(current_path, find_partition, find_additional_info=[]):
                     columns.
 
     """
+
+    # Author: Agustín Amalfitano 
+    # Revised by: Diego Comas  
+
     # Libraries:
     import os
 
@@ -565,6 +541,9 @@ def save_df(df_name, dataframe):
         None.
 
     """
+
+    # Author: Agustín Amalfitano 
+    # Revised by: Diego Comas  
 
     # Opening the file and writing in it:
     with open(df_name, "w") as f:

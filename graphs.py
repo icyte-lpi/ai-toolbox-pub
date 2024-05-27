@@ -1,48 +1,25 @@
 ###############################################################################
-#                         ICyTE-LPI-Deep Toobox                               #
+#                        ICyTE - LPI - AI Toolbox                             #
 # module name:                                                                #
-#     LPI_deep_Graphs                                                         #
+#     graphs                                                                  #
 #                                                                             #
 # module description:                                                         #
-#     This module contains all the functions developed for doing graphs.      #
+#     This module contains functions for doing graphs.                        #
 #                                                                             #
 # authors of the toolbox:                                                     #
 #     Agustín Amalfitano                                                      #
-#     Diego Comas				                       						  #
-#     Franco Ercoli				                       						  #
-#     Juan Iturriaga    		                       						  #
+#     Diego Comas	                			                       	      #
+#     Juan Iturriaga    		                                   		      #
 #                                                                             #  
 # colaborators:                                                               #
-#     Luciana Simón Gonzalez                        						  #
-#     Virginia Ballarin			                       						  #
-#     Gustavo Meschino			                       						  #
+#     Luciana Simón Gonzalez                                			      #
+#     Gustavo Meschino			                                   		      #
+#     Virginia Ballarin			                                		      #
+#     Franco Ercoli				                                       	      #
 #                                                                             #
-# versions:                                                                   #
-#     module: 1.0 - 2023-04-05                                                #
-#     toolbox 1.0 - 2023-XX-XX                                                #
-#                                                                             #
-# *LPI-ICyTE-CONICET-UMDP                                                     #
+# *LPI-ICyTE-CONICET-UNMDP                                                    #
 #                                                                             #
 ###############################################################################
-
-# ******************************************************************************
-# ------------------------------LIST OF VERSIONS--------------------------------
-# Version |   Date   |         Authors      | Description
-# -------- ---------- ---------------------- -----------------------------------
-#
-#    1.0   04/05/2023  Diego Comas            First version.
-#                      Agustín Amalfitano 
-#                      Franco Ercoli
-#
-# ******************************************************************************
-
-# ------------------------------LIST OF FUNCTIONS-------------------------------
-# Functions              |   Date    |    Authors          |   Description
-# ------------------------------------------------------------------------------
-# show_history             04/05/2023   Diego Comas /        Show history of
-#                                       Agustín Amalfitano   training.
-#
-# ------------------------------------------------------------------------------
 
 # --------------------------IMPORTS---------------------------------------------
 # Reserved.
@@ -50,7 +27,7 @@
 # ------------------------------------------------------------------------------
 def show_history(history, metric_name, file_name=0):
     """
-     This function show the history graphs from a training history.
+     This function shows the history graphs from a training history.
 
     --Inputs:
        
@@ -68,6 +45,9 @@ def show_history(history, metric_name, file_name=0):
         None.
 
     """
+    
+    # Author: Diego Comas 
+    # Revised by: -
 
     # Libraries:
     import matplotlib.pyplot as pyplot

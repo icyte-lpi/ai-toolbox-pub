@@ -1,0 +1,19 @@
+#                        ICyTE - LPI - AI Toolbox                              #
+# REQUIREMENTS LIST:
+# This file may be used to create an environment using:
+# $ conda create --name Enviroment_NAME --file requirements.txt
+python == 3.9.6
+numba >= 0.56.4
+pillow
+matplotlib >= 3.7.1
+scikit-learn >= 1.2.2
+pandas >= 1.5.3
+seaborn >= 0.12.2
+openpyxl >= 3.0.9
+imgaug >= 0.4.0
+tensorflow<2.11
+spyder-kernels >= 2.4.3
+spyder >= 5.4.3
+jupyter >= 1.0.0
+gitpython
+xplique

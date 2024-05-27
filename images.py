@@ -1,55 +1,25 @@
 ###############################################################################
-#                         ICyTE-LPI-Deep Toobox                               #
+#                        ICyTE - LPI - AI Toolbox                             #
 # module name:                                                                #
-#     LPI_deep_Images                                                         #
+#     images                                                                  #
 #                                                                             #
 # module description:                                                         #
-#     This module contains all the required functions for processing images.  #
+#     This module contains functions for image processing.                    #
 #                                                                             #
 # authors of the toolbox:                                                     #
 #     Agustín Amalfitano                                                      #
-#     Diego Comas				                       						  #
-#     Franco Ercoli				                       						  #
-#     Juan Iturriaga    		                       						  #
+#     Diego Comas	                			                       	      #
+#     Juan Iturriaga    		                                   		      #
 #                                                                             #  
 # colaborators:                                                               #
-#     Luciana Simón Gonzalez                        						  #
-#     Virginia Ballarin			                       						  #
-#     Gustavo Meschino			                       						  #
+#     Luciana Simón Gonzalez                                			      #
+#     Gustavo Meschino			                                   		      #
+#     Virginia Ballarin			                                		      #
+#     Franco Ercoli				                                       	      #
 #                                                                             #
-# versions:                                                                   #
-#     module: 1.0 - 2023-05-10                                                #
-#     toolbox 1.0 - 2023-XX-XX                                                #
-#                                                                             #
-# *LPI-ICyTE-CONICET-UMDP                                                     #
+# *LPI-ICyTE-CONICET-UNMDP                                                    #
 #                                                                             #
 ###############################################################################
-
-# ******************************************************************************
-# ------------------------------LIST OF VERSIONS--------------------------------
-# Version |   Date   |         Authors      | Description
-# -------- ---------- ---------------------- -----------------------------------
-#
-#    1.0   05/10/2023  Diego Comas            First version.
-#
-# ******************************************************************************
-
-# ------------------------------LIST OF FUNCTIONS-------------------------------
-# Functions              |   Date    |    Authors          |   Description
-# ------------------------------------------------------------------------------
-# apply_aug_offline       05/10/2023   Diego Comas          This function 
-#                                                           generates an 
-#                                                           augmentation 
-#                                                           generador from 
-#                                                           "imgaug" toolbox.
-#
-# apply_aug_offline       05/10/2023   Diego Comas          This function applies 
-#                                                           offline augmentation 
-#                                                           to all the images in 
-#                                                           a folder from an 
-#                                                           augmentation object.
-#
-# ------------------------------------------------------------------------------
 
 # --------------------------IMPORTS---------------------------------------------
 # Reserved.
@@ -70,6 +40,9 @@ def augmentation_generator(augmentation_type):
         augmentor = An OBJECT with the transformations generated from "imgaug" toolbox.
         
     """
+
+    # Author: Diego Comas 
+    # Revised by: -
 
     # Libraries:
     import imgaug.augmenters as iaa
@@ -94,7 +67,7 @@ def augmentation_generator(augmentation_type):
 # ------------------------------------------------------------------------------
 def apply_aug_offline(input_path, output_path, augmentor, number_transformations, image_extension):
     """
-     This function applies offline augmentation to all the images in a folder from a "augmentor" 
+     This function applies offline augmentation to all the images in a folder from an "augmentor" 
      object generated from "augmentation_generator" or "imgaug" toolbox.
 
          --Inputs:
@@ -117,11 +90,14 @@ def apply_aug_offline(input_path, output_path, augmentor, number_transformations
         
     """
 
+    # Author: Diego Comas 
+    # Revised by: -
+
     # Libraries:
     import imgaug.augmenters as iaa
     import cv2
     import os
-    from LPI_deep_Files import create_folder
+    from files import create_folder
 
     # Create the output directory:
     create_folder(output_path)

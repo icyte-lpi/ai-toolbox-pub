@@ -1,52 +1,25 @@
 ###############################################################################
-#                         ICyTE-LPI-Deep Toobox                               #
+#                       ICyTE - LPI - AI Toolbox                              #
 # module name:                                                                #
-#     LPI_deep_Files                                                          #
+#     settings                                                                #
 #                                                                             #
 # module description:                                                         #
 #     This module contains functions for hardware settings.                   #
 #                                                                             #
 # authors of the toolbox:                                                     #
 #     Agustín Amalfitano                                                      #
-#     Diego Comas				                       						  #
-#     Franco Ercoli				                       						  #
-#     Juan Iturriaga    		                       						  #
+#     Diego Comas	                			                       	      #
+#     Juan Iturriaga    		                                   		      #
 #                                                                             #  
 # colaborators:                                                               #
-#     Luciana Simón Gonzalez                        						  #
-#     Virginia Ballarin			                       						  #
-#     Gustavo Meschino			                       						  #
+#     Luciana Simón Gonzalez                                			      #
+#     Gustavo Meschino			                                   		      #
+#     Virginia Ballarin			                                		      #
+#     Franco Ercoli				                                       	      #
 #                                                                             #
-# versions:                                                                   #
-#     module: 1.0 - 2023-04-25                                                #
-#     toolbox 1.0 - 2023-XX-XX                                                #
-#                                                                             #
-# *LPI-ICyTE-CONICET-UMDP                                                     #
+# *LPI-ICyTE-CONICET-UNMDP                                                    #
 #                                                                             #
 ###############################################################################
-
-# ******************************************************************************
-# ------------------------------LIST OF VERSIONS--------------------------------
-# Version |   Date   |         Authors      | Description
-# -------- ---------- ---------------------- -----------------------------------
-#
-#    1.0   04/25/2023  Diego Comas            First version.
-#                      Agustín Amalfitano 
-#                      Franco Ercoli
-#
-# ******************************************************************************
-
-# ------------------------------LIST OF FUNCTIONS-------------------------------
-# Functions              |   Date    |    Authors          |   Description
-# ------------------------------------------------------------------------------
-#
-# toolbox_version          04/25/2023   Diego Comas          Return toolbox 
-#                                                            version. 
-#
-# memory_limit             04/25/2023   Diego Comas          Limit the memory to   
-#                                                            be used by GPUs.
-#
-# ------------------------------------------------------------------------------
 
 # --------------------------IMPORTS---------------------------------------------
 # Reserved.
@@ -54,7 +27,8 @@
 # ------------------------------------------------------------------------------
 def toolbox_version():
     """
-     This function return the version of the ICyTE-LPI-Deep toobox.
+     This function return the version of the ICyTE - LPI - AI Toolbox informing 
+     the HASH of the repository.
 
     --Inputs:
        
@@ -62,19 +36,27 @@ def toolbox_version():
     
     --Outputs:
 
-        toolbox_version = A STRING containing the version of the toolbox.
+        toolbox_hash = A STRING containing the version of the toolbox.
 
     """
 
-    toolbox_version = '1.0'
+    # Author: Diego Comas 
+    # Revised by: -
+
+    # Libraries:
+    import git
+    
+    # We obtain the version as reposity hash:
+    repo = git.Repo(search_parent_directories=True)
+    toolbox_hash = repo.head.object.hexsha
 
     # Returning outputs:
-    return toolbox_version
+    return toolbox_hash
 
 # ------------------------------------------------------------------------------
 def memory_limit(limit):
     """
-     This function limit the memory to be used by GPUs.
+     This function limits the memory to be used by GPUs.
 
     --Inputs:
        
@@ -87,10 +69,14 @@ def memory_limit(limit):
         gpus = A LIST containing the names of the physical GPUs in the PC.
 
     """
+
+    # Author: Diego Comas 
+    # Revised by: -
+
     # So that it doesn't take up all the memory of the server, but uses a limit
-     # particular.
-     # (extracted from the official TensorFlow documentation)
-     # IMPORTANT: Keep in mind that you should strongly reduce the batch sizes!
+    # particular.
+    # (extracted from the official TensorFlow documentation)
+    # IMPORTANT: Keep in mind that you should strongly reduce the batch sizes!
 
     # Libraries:
     import tensorflow as tf
