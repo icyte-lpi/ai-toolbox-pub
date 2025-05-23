@@ -289,13 +289,12 @@ def create_folder(path_create):
     # Libraries:
     import os
 
-    # Checking if it is already exists!
-    try:
-        os.stat(path_create)
-        existing_flag = True
-    except:
+    # Checking if it already exists
+    if not os.path.exists(path_create):
         os.mkdir(path_create)
         existing_flag = False
+    else:
+        existing_flag = True
 
     # Returning outputs:
     return existing_flag

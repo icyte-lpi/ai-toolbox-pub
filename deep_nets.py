@@ -651,7 +651,9 @@ def create_early_stopping(early_stopping_type):
             1 --> Early stopping is applied with monitor "val_accuracy" 
                   and patience "15".
             2 --> Early stopping is applied with monitor "val_accuracy" 
-                  and patience "25".
+                  and patience "25".            
+            3 --> Early stopping is applied with monitor "val_accuracy" 
+                  and patience "5".
 
     --Outputs:
 
@@ -689,6 +691,16 @@ def create_early_stopping(early_stopping_type):
             monitor="val_accuracy",  # variable to monitor
             min_delta=0,
             patience=25,  # Number of epochs without improvement to wait
+            verbose=0,
+            mode="max",  # criteria {"auto", "min", "max"}.
+            baseline=None,
+            restore_best_weights=True,
+        )
+    elif (early_stopping_type == 3):
+        stopping = EarlyStopping(
+            monitor="val_accuracy",  # variable to monitor
+            min_delta=0,
+            patience=5,  # Number of epochs without improvement to wait
             verbose=0,
             mode="max",  # criteria {"auto", "min", "max"}.
             baseline=None,
@@ -928,7 +940,7 @@ def set_net_outputs(model, ixs):
     return(model_changed)
 
 # ------------------------------------------------------------------------------
-def implementing_hold_out(data, labels, id_files, id_labels, dict_params, image_folder, additional_measures, experiment_folder=[]):
+def implementing_hold_out(data, labels, id_files, id_labels, dict_params, image_folder, additional_measures, toolbox_hash, experiment_folder=[]):
     """
      This function implements hold-out on a CNN defined by means "dict_params".
 
@@ -982,8 +994,8 @@ def implementing_hold_out(data, labels, id_files, id_labels, dict_params, image_
                     "optimimizer" --> A STRING indicating the loss function to be used. 
                                       A list of the optimimizers implemented can be 
                                       consulted in "train_net".
-                    "finetuning" --> A LIST with a number indicating the layers from which the 
-                                     net is defreezed.
+                    "finetuning" --> A number indicating the layer from which the net is defreezing 
+                                     for fine-tuning. By default: -1 = all the not BN layer.
                     "learning_rates" --> A LIST with a values of the learning rates for training. 
                                          If fine-tuning is applied it is expected more than one 
                                          value.
@@ -1014,9 +1026,11 @@ def implementing_hold_out(data, labels, id_files, id_labels, dict_params, image_
                               validation measures should be consulted in the 
                               function "eval_net".
 
+        toolbox_hash = A STRING containing the version of the toolbox.                          
+
         experiment_folder = A STRING with the path for saving results. If empty no results 
                             will be saved.
-    
+                            
     --Outputs:
 
         time_counters = A LIST with the times (in seconds) used for the implementation.
@@ -1045,7 +1059,10 @@ def implementing_hold_out(data, labels, id_files, id_labels, dict_params, image_
 
     # Detect number of classes:
     number_classes = len(labels)
-    
+
+    # Copying rest of parameters:
+    list_keys = list(dict_params)
+
     # Cheking if we want to save results:
     if experiment_folder:
 
@@ -1075,7 +1092,7 @@ def implementing_hold_out(data, labels, id_files, id_labels, dict_params, image_
     time_counters = [[] for iter in range(number_of_iterations+1)]
 
     # Making STOPPING function:
-    function_stopping, flag_stopping = create_early_stopping(dict_params['early_stopping'])
+    function_stopping, flag_stopping = create_early_stopping(dict_params['early_stopping'][0])
 
     # Iterations:
     for iter in range(number_of_iterations):
@@ -1083,7 +1100,7 @@ def implementing_hold_out(data, labels, id_files, id_labels, dict_params, image_
         # Show message:
         print("*************************************************************")
         print("***" + dict_params['experiment_name'])
-        print("*****Iteration #", iter + 1, " de ", number_of_iterations,  "...")
+        print("*****Iteration #", iter + 1, " of ", number_of_iterations,  "...")
 
         # Start counting time:
         startTime = datetime.now()
@@ -1093,9 +1110,8 @@ def implementing_hold_out(data, labels, id_files, id_labels, dict_params, image_
             # Save starting time:
             start_Time = startTime
 
-            # Define name specific for results in this iter:
-            aux_result_name = result_folder + \
-                                    '/Data_iter_' + str(iter+1)
+        # Define name specific for results in this iter:
+        aux_result_name = result_folder + '/Data_iter_' + str(iter+1)
 
         # Inicialization of the CNN:
         net, preprocess_input, images_size, flag_transfer = create_cnn(dict_params['net_used'], number_classes, dict_params['classifier'][0])
@@ -1112,11 +1128,13 @@ def implementing_hold_out(data, labels, id_files, id_labels, dict_params, image_
         else:
             data_balanced = data_filtered
 
-        # Making partition::
+        # Making partition:
         TRAIN_Data, VAL_Data, TEST_Data = hold_out_df(data_balanced, dict_params['holdout'],
                                                                             aux_result_name,
                                                                             id_files, id_labels,
-                                                                            dict_params['train_balancing'])
+                                                                            dict_params['train_balancing'],
+                                                                            random_seed=dict_params['seed'][0])
+
         # Checking VALIDATION data (if it is not defined, then I will use the test data for monitoring training):
         if (dict_params['holdout'][1] == 0):
             VAL_Data = TEST_Data
@@ -1125,15 +1143,15 @@ def implementing_hold_out(data, labels, id_files, id_labels, dict_params, image_
         # Iterators:
         TRAIN_iterator = create_iter_df(TRAIN_Data, preprocess_input, image_folder, images_size,
                                                         dict_params['train_batch'][0], dict_params['augmentation'][0], dict_params['color'], id_files,
-                                                        id_labels, labels, Condicion_Shuffle=True)
+                                                        id_labels, labels, shuffle_flag=True)
 
         VALIDATION_iterator = create_iter_df(VAL_Data, preprocess_input, image_folder, images_size,
                                                                 dict_params['validation_batch'][0], 0, dict_params['color'], id_files,
-                                                                id_labels, labels, Condicion_Shuffle=False)
+                                                                id_labels, labels, shuffle_flag=False)
 
         TEST_iterator = create_iter_df(TEST_Data, preprocess_input, image_folder, images_size,
                                                         dict_params['test_batch'][0], 0, dict_params['color'], id_files,
-                                                        id_labels, labels, Condicion_Shuffle=False)
+                                                        id_labels, labels, shuffle_flag=False)
 
         # Train:
         net, history = train_net(net, dict_params['epochs'], TRAIN_iterator, VALIDATION_iterator,
@@ -1195,7 +1213,7 @@ def implementing_hold_out(data, labels, id_files, id_labels, dict_params, image_
         array.to_excel(writer_final, sheet_name='Results',
                             float_format="%.4f", index=None)
         # Saving:
-        writer_final.save()
+        writer_final.close()
 
         # ---Copying TXT file with the parameters:
         dict_params['labels_used'] = list_into_str(labels)
@@ -1203,32 +1221,31 @@ def implementing_hold_out(data, labels, id_files, id_labels, dict_params, image_
         # Inicialization:
         text_params_file_final = [
             [] for iter in range(len(list_keys)+3)]
+        
         # Cargo el código de versión:
-        text_params_file_final[0] = 'script_version: ' + dict_params['script_version']
-        text_params_file_final[1] = 'toolbox_version: ' + toolbox_version()
-        text_params_file_final[2] = 'net_used: ' + dict_params['net_used']
-        text_params_file_final[3] = 'labels: ' + dict_params['labels_used']
+        text_params_file_final[0] = 'experiment_name: ' + dict_params['experiment_name']
+        text_params_file_final[1] = 'script_version: ' + dict_params['script_version']
+        text_params_file_final[2] = 'toolbox_version: ' + toolbox_hash #TODO: check this when toolbox is not a git rep or is not a commited version
+        text_params_file_final[3] = 'net_used: ' + dict_params['net_used']
+        text_params_file_final[4] = 'labels: ' + dict_params['labels_used']
 
         # Remove already written parameters:
         del (dict_params['net_used'])
         del (dict_params['script_version'])
-        list_keys = list(dict_params)
+        del (dict_params['experiment_name'])
 
-        # Copying rest of parameters:
-        list_keys = list(dict_params)
-
-        for iter in range(len(list_keys)-1):
-            if isinstance(dict_params[list_keys[iter]], list):
-                string = list_into_str(dict_params[list_keys[iter]])
-            elif isinstance(dict_params[list_keys[iter]], bool):
-                string = str(dict_params[list_keys[iter]])
+        for iter in range(len(list_keys)-3):
+            if isinstance(dict_params[list_keys[iter+1]], list):
+                string = list_into_str(dict_params[list_keys[iter+1]])
+            elif isinstance(dict_params[list_keys[iter+1]], bool):
+                string = str(dict_params[list_keys[iter+1]])
             else:
-                string = dict_params[list_keys[iter]]
-            text_params_file_final[iter + 4] = (list_keys[iter]+': ' + string).rstrip()
+                string = str(dict_params[list_keys[iter+1]])
+            text_params_file_final[iter + 4] = (str(list_keys[iter+1]) + ': ' + string).rstrip()
 
         # Saving times in the parameters file:
         string = list_into_str(time_counters)
-        text_params_file_final[len(list_keys)+3] = 'time_used: ' + string
+        text_params_file_final[len(list_keys)+2] = 'time_used: ' + string
         
         # Saving file:
         save_list_to_text(text_params_file_final, experiment_folder + '/' + 'Test_Parameters.txt')
@@ -1237,7 +1254,7 @@ def implementing_hold_out(data, labels, id_files, id_labels, dict_params, image_
     return time_counters, matrix_measures
 
 # ------------------------------------------------------------------------------
-def evaluate_class_models(data_df, dic_par, labels, id_files, id_labels, image_folder, result_folder):
+def evaluate_class_models(data_df, dic_par, labels, id_files, id_labels, image_folder, result_folder, toolbox_hash):
     """
      This function implements the evaluation of classification models from a DATAFRAME.
 
@@ -1323,7 +1340,9 @@ def evaluate_class_models(data_df, dic_par, labels, id_files, id_labels, image_f
 
         result_folder = A STRING with the path for saving results. If empty no results 
                         will be saved.
-    
+
+        toolbox_hash = A STRING containing the version of the toolbox.
+  
     --Outputs:
 
         time_counters_total = A LIST containing the times (in seconds) used for the 
@@ -1374,8 +1393,11 @@ def evaluate_class_models(data_df, dic_par, labels, id_files, id_labels, image_f
         model_counter = model_counter + 1
 
         # Define the name for the experiments (the folder where we save all the results):
-        experiment_name = formated_date + '_' + dic_par['experiment_name'] + '_' + dic_par['case'] + '_' + prefix_name_1 + '_' + model
-
+        experiment_name = formated_date + '_' + dic_par['experiment_name'] + '_'
+        if 'case' in dic_par:
+            experiment_name = experiment_name + dic_par['case'] + '_'
+        experiment_name = experiment_name + prefix_name_1 + '_' + model
+        
         # Trying to create the folder "experiments" inside "results":
         if result_folder:
             experiment_folder = os.path.join(result_folder, experiment_name)
@@ -1395,10 +1417,10 @@ def evaluate_class_models(data_df, dic_par, labels, id_files, id_labels, image_f
 
         # Changing keys accordantly:
         dict_params['net_used'] = model
-        dict_params['finetuning'] = [id_finetuning]
+        dict_params['finetuning'] = id_finetuning
         
         # --ITERATION TRAINING-TEST:
-        time_counters, matrix_measures = implementing_hold_out(data_df, labels, id_files, id_labels, dict_params, image_folder, additional_measures, experiment_folder)
+        time_counters, matrix_measures = implementing_hold_out(data_df, labels, id_files, id_labels, dict_params, image_folder, additional_measures, toolbox_hash, experiment_folder)
 
         # Download the values of times and measures:
         time_counters_total.append(time_counters)

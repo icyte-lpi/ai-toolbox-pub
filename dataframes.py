@@ -105,7 +105,7 @@ def balance_df(data_frame, mode, id_files="images", id_labels="labels"):
 
 # ------------------------------------------------------------------------------
 def hold_out_df(data_frame, proportions, result_name,
-                                  id_files="images", id_labels="labels", balancing_criterium="no"):
+                                  id_files="images", id_labels="labels", balancing_criterium="no", random_seed=10):
     """
      This function makes a partition in a DATAFRAME to form TRAIN, VALIDATION 
      and TEST data considering HOLD-OUT.
@@ -128,7 +128,11 @@ def hold_out_df(data_frame, proportions, result_name,
         balancing_criterium = A STRING defining the kind of balancing to perform:
                 "min" --> Adjust to the frequency of the minority class.
                 "max" --> Adjust to the frequency of the majority class.
-                "no" --> None balancing is used.      
+                "no" --> None balancing is used.  
+                
+        random_seed = Controls the shuffling applied to the data before applying the split. 
+                Pass an int for reproducible output across multiple function calls
+                or None for a random output. Default is 10.
 
     --Outputs:
 
@@ -149,7 +153,8 @@ def hold_out_df(data_frame, proportions, result_name,
     # --Obtaining the DATAFRAME of TEST:
     df_Auxiliar, df_test = train_test_split(data_frame,
                                             test_size=proportions[2],
-                                            stratify=list(data_frame[id_labels]))
+                                            stratify=list(data_frame[id_labels]),
+                                            random_state=random_seed)
 
     # -Obtaining TRAINING and VALIDATION:
     if proportions[1] == 0:
@@ -161,7 +166,8 @@ def hold_out_df(data_frame, proportions, result_name,
         df_train_Auxiliar, df_validation = train_test_split(df_Auxiliar,
                                                             test_size=proportions[1]/(
                                                                 1-proportions[2]),
-                                                            stratify=list(df_Auxiliar[id_labels]))
+                                                            stratify=list(df_Auxiliar[id_labels]),
+                                                            random_state=random_seed)
         df_flag = True
 
     # Ckeking for balancing:
@@ -172,14 +178,14 @@ def hold_out_df(data_frame, proportions, result_name,
             df_train_Auxiliar, balancing_criterium, id_files, id_labels)
 
     # Cheking for saving files:
-    if not result_name:
+    if result_name:
         # Save list of file to a "xlsx":
         writer = pd.ExcelWriter(result_name + '_SETS.xlsx')
         df_train.to_excel(writer, sheet_name='TRAIN')
         if df_flag:
             df_validation.to_excel(writer, sheet_name='VALIDATION')
         df_test.to_excel(writer, sheet_name='TEST')
-        writer.save()
+        writer.close()
 
     # Returning outputs:
     return df_train, df_validation, df_test
@@ -360,7 +366,7 @@ def create_iter_df(data_frame, preproc_function, image_path, img_size, size_batc
             preprocessing_function=preproc_function)
 
     # Making the iterator:
-    iterador = datagen.flow_from_dataframe(dataframe=data_frame,
+    iterator = datagen.flow_from_dataframe(dataframe=data_frame,
                                            directory=image_path,
                                            x_col=id_files,
                                            y_col=id_labels,
@@ -369,11 +375,11 @@ def create_iter_df(data_frame, preproc_function, image_path, img_size, size_batc
                                            color_mode=color_mode,
                                            class_mode="categorical",
                                            target_size=img_size,
-                                           classes=list_classes
+                                           classes=None
                                            )
 
     # Returning outputs:
-    return iterador
+    return iterator
 
 # ------------------------------------------------------------------------------
 def read_csv(name_CSV, id_files, id_labels, separator=',', additional_filters=[]):
@@ -422,7 +428,7 @@ def read_csv(name_CSV, id_files, id_labels, separator=',', additional_filters=[]
     return df_data
 
 # ------------------------------------------------------------------------------
-def walk_into_subdirs(current_path, find_partition, find_additional_info=[]):
+def walk_into_subdirs(current_path, find_partition, find_additional_info=''):
     """
      This function walks through the subdirectories looking for files to 
      create a DATAFRAME.
@@ -468,7 +474,7 @@ def walk_into_subdirs(current_path, find_partition, find_additional_info=[]):
 
     # Define the list of dirs inside "current_path":
     list_first_dic = [f.name for f in os.scandir(current_path) if f.is_dir()]
-
+    
     # Walk the subdirs
     for path, subdirs, files in os.walk(current_path):
         # iterate thought each file in subdirs
@@ -478,17 +484,19 @@ def walk_into_subdirs(current_path, find_partition, find_additional_info=[]):
 
             # List with the path and the name:
             path_and_name = (os.path.join(path, name))
-            
+            path_and_name = path_and_name.replace("\\", "/")
+
             # Split the STRING to get differents atributes:  
             split_str = path_and_name.split("/")
 
             # Reading the label as the folder previous to the files: 
             label = split_str[-2]
+            
             # Adding the label:
             add_to_dataframe = add_to_dataframe + "," + label
         
             # Cheking for finding additional conditions:
-            if not find_additional_info:
+            if find_additional_info != "":
                 # I have to identify a condition defined in the file name:
                 aux = name.split(find_additional_info)
 
@@ -507,19 +515,18 @@ def walk_into_subdirs(current_path, find_partition, find_additional_info=[]):
                 add_to_dataframe = add_to_dataframe + "," + partition
 
             # Defining relative path from "current_path":
-            rel_path = split_str[-len(split_str):]
-            rel_path = '/'.join(rel_path)
-
+            rel_path = path_and_name.replace(current_path, "").lstrip("/")
+            
             # Adding the "partition":
             add_to_dataframe = add_to_dataframe + "," + rel_path
 
             # Save the list only if in the subdir and not in 
             # the same dir of the script:
             if find_partition:
-                if split_str[-3] in list_first_dic:
+                if split_str[-2] in list_first_dic:
                     dataframe.append(add_to_dataframe)
             else:
-                if split_str[-2] in list_first_dic:
+                if split_str[-1] in list_first_dic:
                     dataframe.append(add_to_dataframe)
 
     # Returning outputs:

@@ -68,7 +68,7 @@ def show_history(history, metric_name, file_name=0):
     # Graph of the metric informed in "metric_name":
     pyplot.subplot(222)
     pyplot.plot(epochs, history[metric_name], "m",  label="Training " + metric_name)
-    pyplot.plot(epochs, history["val_" + metric_name], "c", label="Validation" + metric_name)
+    pyplot.plot(epochs, history["val_" + metric_name], "c", label="Validation " + metric_name)
     pyplot.xlabel("Epochs")
     pyplot.ylabel(metric_name)
     pyplot.legend()

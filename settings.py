@@ -25,14 +25,14 @@
 # Reserved.
 
 # ------------------------------------------------------------------------------
-def toolbox_version():
+def toolbox_version(repo_path):
     """
      This function return the version of the ICyTE - LPI - AI Toolbox informing 
      the HASH of the repository.
 
     --Inputs:
        
-        None.
+        repo_path = A STRING containing the path to the toolbox repo.
     
     --Outputs:
 
@@ -47,8 +47,11 @@ def toolbox_version():
     import git
     
     # We obtain the version as reposity hash:
-    repo = git.Repo(search_parent_directories=True)
-    toolbox_hash = repo.head.object.hexsha
+    try:
+        repo = git.Repo(repo_path, search_parent_directories=True)
+        toolbox_hash = repo.head.object.hexsha[:7]
+    except git.InvalidGitRepositoryError:
+        toolbox_hash = "No Git Repo"
 
     # Returning outputs:
     return toolbox_hash
@@ -93,7 +96,7 @@ def memory_limit(limit):
             logical_gpus = tf.config.list_logical_devices('GPU')
             print(len(gpus), "Physical GPUs,", len(logical_gpus), "Logical GPUs")
             # Save flag:
-            flag_error = True
+            flag_error = False
         except RuntimeError as e:
             # If an error occurred during setting
             # (for instance if the device was created after inicializing the GPU):
